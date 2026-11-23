@@ -1,0 +1,15 @@
+{
+  "name": "employee-management-test-automation",
+  "version": "1.0.0",
+  "description": "Node.js runner that triggers Newman (Postman CLI) test execution for the Employee Management System and serves the one-click test-runner UI.",
+  "main": "automation/test-runner.js",
+  "scripts": {
+    "start": "node automation/test-runner.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

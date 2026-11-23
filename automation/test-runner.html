@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Management API - Test Automation</title>
+<style>
+  :root {
+    --primary: #4f46e5;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --bg: #f3f4f6;
+    --card: #ffffff;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: #fff;
+    padding: 34px 28px;
+    text-align: center;
+  }
+  .header h1 { margin: 0 0 6px 0; font-size: 26px; }
+  .header p { margin: 0; opacity: 0.9; font-size: 14px; }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 28px; }
+
+  .run-panel {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 28px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  #run-btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 16px 36px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform .05s, opacity .2s;
+  }
+  #run-btn:hover { opacity: 0.92; }
+  #run-btn:active { transform: scale(0.98); }
+  #run-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .status-line {
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .status-line.idle { color: var(--text-light); }
+  .status-line.running { color: var(--primary); }
+  .status-line.completed { color: var(--success); }
+  .status-line.error { color: var(--danger); }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid #c7d2fe;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .stat-box {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .stat-box .label { font-size: 12.5px; color: var(--text-light); margin-bottom: 4px; }
+  .stat-box .value { font-size: 24px; font-weight: 700; }
+  .stat-box.passed .value { color: var(--success); }
+  .stat-box.failed .value { color: var(--danger); }
+
+  #view-report-btn {
+    display: none;
+    margin-top: 20px;
+    background: #111827;
+    color: #fff;
+    border: none;
+    padding: 12px 26px;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .categories {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 24px 28px;
+  }
+  .categories h3 { margin-top: 0; }
+  .cat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .cat-row:last-child { border-bottom: none; }
+  .cat-name { font-weight: 600; }
+  .cat-counts span { margin-left: 12px; }
+  .badge-pass { color: var(--success); font-weight: 700; }
+  .badge-fail { color: var(--danger); font-weight: 700; }
+
+  .progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width .3s ease;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 12.5px;
+    margin-top: 22px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Employee Management API - Test Automation</h1>
+    <p>Postman + Newman Automated Testing</p>
+  </div>
+
+  <div class="container">
+
+    <div class="run-panel">
+      <div class="progress-bar-bg" style="margin-bottom:20px;">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+
+      <button id="run-btn">&#9654; RUN ALL TEST CASES</button>
+      <div class="status-line idle" id="status-line">Ready</div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="label">Total Tests</div>
+          <div class="value" id="stat-total">-</div>
+        </div>
+        <div class="stat-box passed">
+          <div class="label">Passed</div>
+          <div class="value" id="stat-passed">-</div>
+        </div>
+        <div class="stat-box failed">
+          <div class="label">Failed</div>
+          <div class="value" id="stat-failed">-</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">Success Rate</div>
+          <div class="value" id="stat-rate">-</div>
+        </div>
+      </div>
+
+      <a href="#" id="view-report-btn" target="_blank">&#128196; VIEW HTML REPORT</a>
+    </div>
+
+    <div class="categories">
+      <h3>Test Categories</h3>
+      <div class="cat-row"><div class="cat-name">Authentication Tests</div><div class="cat-counts" id="cat-Authentication Tests">-</div></div>
+      <div class="cat-row"><div class="cat-name">CREATE Employee Tests</div><div class="cat-counts" id="cat-CREATE Employee Tests">-</div></div>
+      <div class="cat-row"><div class="cat-name">READ Tests</div><div class="cat-counts" id="cat-READ Tests">-</div></div>
+      <div class="cat-row"><div class="cat-name">UPDATE Tests</div><div class="cat-counts" id="cat-UPDATE Tests">-</div></div>
+      <div class="cat-row"><div class="cat-name">DELETE Tests</div><div class="cat-counts" id="cat-DELETE Tests">-</div></div>
+    </div>
+
+    <p class="footer-note">
+      Requires the Flask API running on http://127.0.0.1:5000 and this runner server on http://localhost:3000.
+    </p>
+  </div>
+
+<script>
+const runBtn = document.getElementById("run-btn");
+const statusLine = document.getElementById("status-line");
+const viewReportBtn = document.getElementById("view-report-btn");
+const progressFill = document.getElementById("progress-fill");
+
+let pollTimer = null;
+
+async function runAllTests() {
+  runBtn.disabled = true;
+  viewReportBtn.style.display = "none";
+  setStatus("running", "Running Tests...");
+  progressFill.style.width = "30%";
+
+  try {
+    const res = await fetch("/run-tests", { method: "POST" });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      setStatus("error", data.message || "Failed to start tests");
+      runBtn.disabled = false;
+      return;
+    }
+
+    pollTimer = setInterval(pollStatus, 1200);
+  } catch (err) {
+    setStatus("error", "Could not reach the test runner server (is it running on port 3000?)");
+    runBtn.disabled = false;
+  }
+}
+
+async function pollStatus() {
+  try {
+    const res = await fetch("/test-status");
+    const data = await res.json();
+    renderStatus(data);
+
+    if (data.status === "completed" || data.status === "error" || data.status === "failed") {
+      clearInterval(pollTimer);
+      runBtn.disabled = false;
+      progressFill.style.width = "100%";
+    }
+  } catch (err) {
+    clearInterval(pollTimer);
+    setStatus("error", "Lost connection to test runner server");
+    runBtn.disabled = false;
+  }
+}
+
+function renderStatus(data) {
+  setStatus(data.status, data.message);
+
+  document.getElementById("stat-total").textContent = data.total ?? "-";
+  document.getElementById("stat-passed").textContent = data.passed ?? "-";
+  document.getElementById("stat-failed").textContent = data.failed ?? "-";
+  document.getElementById("stat-rate").textContent = data.status === "completed" ? `${data.successRate}%` : "-";
+
+  if (data.categories) {
+    Object.entries(data.categories).forEach(([name, c]) => {
+      const el = document.getElementById(`cat-${name}`);
+      if (el) {
+        el.innerHTML = c.total > 0
+          ? `<span>Total: ${c.total}</span><span class="badge-pass">Pass: ${c.passed}</span><span class="badge-fail">Fail: ${c.failed}</span>`
+          : "-";
+      }
+    });
+  }
+
+  if (data.status === "completed" && data.reportUrl) {
+    viewReportBtn.href = data.reportUrl;
+    viewReportBtn.style.display = "inline-block";
+  }
+}
+
+function setStatus(status, message) {
+  statusLine.className = `status-line ${status}`;
+  statusLine.innerHTML = status === "running"
+    ? `<span class="spinner"></span>${message}`
+    : message;
+}
+
+runBtn.addEventListener("click", runAllTests);
+
+// Load current status on page open (in case tests already ran)
+pollStatus();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Employee Management System</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h1>Employee Management</h1>
+      <p class="subtitle">Sign in to manage your organization's employees</p>
+
+      <div class="demo-hint">Demo credentials &mdash; username: <b>admin</b> &nbsp;|&nbsp; password: <b>admin123</b></div>
+
+      <form id="login-form" novalidate>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" autocomplete="username">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" autocomplete="current-password">
+
+        <div class="error-text" id="login-error"></div>
+
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

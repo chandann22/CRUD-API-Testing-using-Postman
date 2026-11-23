@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Employee Management System</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <h2>Employee Management System</h2>
+    <div>
+      <span class="user-tag" id="user-tag"></span>
+      <a href="test-runner-link.html" id="runner-link" style="display:none;"></a>
+      <button class="btn-secondary" onclick="window.open('http://localhost:3000/test-runner.html', '_blank')">Test Runner</button>
+      <button class="btn-danger" id="logout-btn">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="cards">
+      <div class="card">
+        <div class="label">Total Employees</div>
+        <div class="value" id="stat-total">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Active Employees</div>
+        <div class="value" id="stat-active">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Departments</div>
+        <div class="value" id="stat-departments">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Latest Employee</div>
+        <div class="value" id="stat-latest" style="font-size:16px;">-</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <h3>Employees</h3>
+      <button class="btn-primary" id="add-employee-btn" style="width:auto;">+ Add Employee</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="employee-table-body">
+        </tbody>
+      </table>
+      <div class="empty-state" id="empty-state" style="display:none;">No employees yet. Click "Add Employee" to create one.</div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Employee Modal -->
+  <div class="modal-overlay" id="employee-modal">
+    <div class="modal">
+      <h3 id="modal-title">Add Employee</h3>
+      <form id="employee-form" novalidate>
+        <input type="hidden" id="employee-id">
+
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="e.g. Rahul Sharma">
+        <span class="field-error" id="err-name"></span>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="e.g. rahul@gmail.com">
+        <span class="field-error" id="err-email"></span>
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" placeholder="10-digit phone number" maxlength="10">
+        <span class="field-error" id="err-phone"></span>
+
+        <label for="department">Department</label>
+        <input type="text" id="department" placeholder="e.g. IT">
+        <span class="field-error" id="err-department"></span>
+
+        <label for="designation">Designation</label>
+        <input type="text" id="designation" placeholder="e.g. Software Engineer">
+        <span class="field-error" id="err-designation"></span>
+
+        <label for="salary">Salary</label>
+        <input type="number" id="salary" placeholder="e.g. 50000" min="1">
+        <span class="field-error" id="err-salary"></span>
+
+        <label for="joining_date">Joining Date</label>
+        <input type="date" id="joining_date">
+        <span class="field-error" id="err-joining_date"></span>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Save</button>
+          <button type="button" class="btn-secondary" id="clear-form-btn">Clear</button>
+          <button type="button" class="btn-secondary" id="cancel-modal-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/employees.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+/* =======================================================
+   Employee Management System - Shared Stylesheet
+   ======================================================= */
+
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --bg: #f3f4f6;
+  --card-bg: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ---------- Login Page ---------- */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-card h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.login-card p.subtitle {
+  text-align: center;
+  color: var(--text-light);
+  margin-top: 0;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.demo-hint {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #4338ca;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ---------- Form Elements ---------- */
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  transition: border-color .15s;
+  background: #fff;
+  color: var(--text);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 18px;
+  transition: transform .05s, opacity .15s;
+}
+button:active { transform: scale(0.98); }
+
+.btn-primary { background: var(--primary); color: #fff; width: 100%; }
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-secondary { background: #e5e7eb; color: var(--text); }
+.btn-secondary:hover { background: #d1d5db; }
+
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { opacity: .9; }
+
+.btn-success { background: var(--success); color: #fff; }
+
+.error-text {
+  color: var(--danger);
+  font-size: 13px;
+  margin: -10px 0 14px 0;
+  min-height: 16px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: -12px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ---------- App Shell ---------- */
+.topbar {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar h2 { margin: 0; font-size: 18px; }
+.topbar .user-tag { font-size: 13px; color: var(--text-light); margin-right: 14px; }
+
+.container { padding: 28px; max-width: 1200px; margin: 0 auto; }
+
+/* ---------- Dashboard cards ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.card .label { font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+.card .value { font-size: 28px; font-weight: 700; }
+
+/* ---------- Toolbar / table ---------- */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.toolbar h3 { margin: 0; }
+
+.table-wrapper {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+
+table { width: 100%; border-collapse: collapse; min-width: 800px; }
+
+th, td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+th { background: #f9fafb; font-weight: 600; color: var(--text-light); text-transform: uppercase; font-size: 11.5px; letter-spacing: .04em; }
+
+tr:hover td { background: #fafaff; }
+
+.actions-cell { display: flex; gap: 8px; }
+.actions-cell button { padding: 6px 12px; font-size: 12.5px; }
+
+.empty-state { text-align: center; padding: 40px; color: var(--text-light); }
+
+/* ---------- Modal ---------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h3 { margin-top: 0; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+
+/* ---------- Toast notifications ---------- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+  animation: slideIn .2s ease-out;
+  min-width: 220px;
+}
+.toast.success { background: var(--success); }
+.toast.error { background: var(--danger); }
+
+@keyframes slideIn {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.text-right { text-align: right; }

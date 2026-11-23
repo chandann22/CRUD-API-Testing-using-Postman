@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base_url}}/api/employees/999999"
+method: DELETE
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Deleting non-existing employee should return 404", function () {
+          pm.response.to.have.status(404);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 2000

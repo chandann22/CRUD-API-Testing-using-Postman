@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Rahul Sharma",
+      "email": "admin.duplicate@gmail.com",
+      "phone": "9876543210",
+      "department": "IT",
+      "designation": "Software Engineer",
+      "salary": 50000,
+      "joining_date": "2026-09-21"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Setup request completes", function () {
+          pm.expect([201, 409]).to.include(pm.response.code);
+      });
+    language: text/javascript
+order: 11000

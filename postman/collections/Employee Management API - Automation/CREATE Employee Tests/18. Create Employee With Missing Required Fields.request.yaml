@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Incomplete Employee"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Missing required fields should return 400", function () {
+          pm.response.to.have.status(400);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 10000

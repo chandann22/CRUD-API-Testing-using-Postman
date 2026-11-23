@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base_url}}/api/employees/999999"
+method: GET
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Non-existing ID should return 404", function () {
+          pm.response.to.have.status(404);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 4000

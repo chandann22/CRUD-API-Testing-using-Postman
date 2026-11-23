@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Rahul Sharma",
+      "email": "admin.duplicate@gmail.com",
+      "phone": "9876543210",
+      "department": "IT",
+      "designation": "Software Engineer",
+      "salary": 50000,
+      "joining_date": "2026-09-21"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Duplicate email should return 409", function () {
+          pm.response.to.have.status(409);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 12000

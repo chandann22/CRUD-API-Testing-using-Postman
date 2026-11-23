@@ -1,0 +1,38 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Rahul Sharma",
+      "email": "rahul.sharma.{{$randomInt}}@gmail.com",
+      "phone": "9876543210",
+      "department": "IT",
+      "designation": "Software Engineer",
+      "salary": 50000,
+      "joining_date": "2026-09-21"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code should be 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+
+      if (pm.response.code === 201) {
+          var jsonData = pm.response.json();
+          pm.test("Employee object returned with an ID", function () {
+              pm.expect(jsonData.employee.id).to.exist;
+          });
+          pm.environment.set("employee_id", jsonData.employee.id);
+      }
+    language: text/javascript
+order: 1000

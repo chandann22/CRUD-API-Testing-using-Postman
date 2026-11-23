@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: GET
+headers:
+  Content-Type: application/json
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Request without token should return 401", function () {
+          pm.response.to.have.status(401);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 7000

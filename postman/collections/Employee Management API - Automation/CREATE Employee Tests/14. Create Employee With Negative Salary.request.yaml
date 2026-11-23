@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{base_url}}/api/employees"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Rahul Sharma",
+      "email": "negsalary@gmail.com",
+      "phone": "9876543210",
+      "department": "IT",
+      "designation": "Software Engineer",
+      "salary": -5000,
+      "joining_date": "2026-09-21"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Negative salary should return 400", function () {
+          pm.response.to.have.status(400);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 6000

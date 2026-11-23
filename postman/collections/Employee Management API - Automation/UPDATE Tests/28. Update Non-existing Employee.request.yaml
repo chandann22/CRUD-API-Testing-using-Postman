@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{base_url}}/api/employees/999999"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "salary": 70000
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Updating non-existing employee should return 404", function () {
+          pm.response.to.have.status(404);
+      });
+
+      pm.test("Response is valid JSON", function () {
+          pm.response.to.be.json;
+      });
+    language: text/javascript
+order: 4000
